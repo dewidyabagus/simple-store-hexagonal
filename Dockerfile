@@ -9,7 +9,7 @@ RUN go mod download -x
 
 COPY . .
 
-RUN go build -o ./app/main
+RUN go build -o main
 
 # Step Kedua
 FROM alpine:3.14

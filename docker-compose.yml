@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  databases:
+    container_name: postgresql-storedb
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=yourpassword
+      - POSTGRES_DB=storedb
+    restart: on-failure
+    ports:
+      - 65432:5432
+    networks:
+      - local_network
+networks:
+  local_network:
+    name: local_network

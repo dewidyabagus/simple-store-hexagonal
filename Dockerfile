@@ -9,7 +9,7 @@ RUN go mod download -x
 
 COPY . .
 
-RUN go build -o .app/main
+RUN go build -o main
 
 # Step Kedua
 FROM alpine:3.14
@@ -17,6 +17,6 @@ FROM alpine:3.14
 WORKDIR /app/webservice
 
 COPY --from=builder /app/config/.env /config/.env
-COPY --from=builder /app/app/main .
+COPY --from=builder /app/main .
 EXPOSE 8000
 CMD ["./main"] 

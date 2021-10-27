@@ -25,8 +25,8 @@ jobs:
       - name: generate config file 
         env: 
           CONFIG: ${{secrets.APP_CONFIG}} 
-          run: | 
-            echo "$CONFIG" > ./app.config.json 
+        run: | 
+          echo "$CONFIG" > ./app.config.json 
       - name: build image
         run: docker build -t widyaadebagus/webstore-golang:1.0 . 
       - name: login docker hub 

@@ -26,7 +26,7 @@ jobs:
         env: 
           CONFIG: ${{secrets.APP_CONFIG}} 
         run: | 
-          rm -fd -R config/ && mkdir config && echo "$CONFIG" > ./config/.env
+          rm -fd -R ./config && mkdir ./config && echo "$CONFIG" > ./config/.env
       - name: build image
         run: docker build -t widyaadebagus/webstore-golang:1.0 . 
       - name: login docker hub 

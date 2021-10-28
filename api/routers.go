@@ -22,5 +22,6 @@ func AddRoute(e *echo.Echo, user *user.Controller, product *product.Controller) 
 	eproduct.POST("", product.AddNewProduct)
 	eproduct.GET("/:id", product.FindProductBy)
 	eproduct.PUT("/:id", product.ModifyProduct)
+	eproduct.DELETE("/:id", product.DeleteProduct)
 	eproduct.GET("/:id/photo", product.GetProductImageById)
 }

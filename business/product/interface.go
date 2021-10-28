@@ -15,6 +15,9 @@ type Service interface {
 
 	// Modify Information Product
 	ModifyProduct(id string, product *ProductSpec) error
+
+	// Delete product
+	DeleteProduct(id string) error
 }
 
 type Repository interface {
@@ -32,4 +35,7 @@ type Repository interface {
 
 	// Modify Information Product
 	ModifyProduct(id string, product *ModifyProduct) error
+
+	// Delete product
+	DeleteProduct(id string) error
 }

@@ -27,7 +27,7 @@ type Product struct {
 	Photo       string    `gorm:"photo;type:varchar(100)"`
 	CreatedAt   time.Time `gorm:"created_at"`
 	UpdatedAt   time.Time `gorm:"updated_at"`
-	DeletedAt   time.Time `gorm:"deleted_at"`
+	DeletedAt   time.Time `gorm:"deleted_at;default:'0001-01-01 00:00:00+00'"`
 }
 
 func (p *Product) toBusinessProduct() *product.Product {
@@ -127,6 +127,15 @@ func (r *Repository) GetProductImageById(id string) (string, error) {
 		return "", err
 	}
 
+	if len(source.Photo) == 0 {
+		return "", business.ErrNotFound
+	}
+
+	_, err = os.Stat(ImageLocation + source.Photo)
+	if os.IsNotExist(err) {
+		return "", business.ErrNotFound
+	}
+
 	return ImageLocation + source.Photo, nil
 }
 
@@ -187,4 +196,19 @@ func (r *Repository) ModifyProduct(id string, product *product.ModifyProduct) er
 		Photo:       product.Photo,
 		UpdatedAt:   product.UpdatedAt,
 	}).Error
+}
+
+func (r *Repository) DeleteProduct(id string) error {
+	product := new(Product)
+
+	err := r.DB.First(product, "ID = ? and deleted_at = '0001-01-01 00:00:00+00'", id).Error
+	if err != nil {
+		return err
+	}
+
+	if len(product.Photo) != 0 {
+		_ = removeImage(product.Photo)
+	}
+
+	return r.DB.Model(product).Updates(Product{DeletedAt: time.Now()}).Error
 }

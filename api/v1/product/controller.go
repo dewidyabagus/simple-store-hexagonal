@@ -119,6 +119,16 @@ func (c *Controller) ModifyProduct(ctx echo.Context) error {
 	return ctx.JSON(common.SuccessResponseWithoutData())
 }
 
-// func (c *Controller) DeleteProduct(ctx echo.Context) error {
+func (c *Controller) DeleteProduct(ctx echo.Context) error {
+	id := ctx.Param("id")
+	if _, err := uuid.Parse(id); err != nil {
+		return ctx.JSON(common.BadRequestResponse())
+	}
 
-// }
+	err := c.service.DeleteProduct(id)
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	return ctx.JSON(common.SuccessResponseWithoutData())
+}

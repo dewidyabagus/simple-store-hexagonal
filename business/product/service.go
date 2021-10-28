@@ -41,3 +41,7 @@ func (s *service) ModifyProduct(id string, product *ProductSpec) error {
 
 	return s.repository.ModifyProduct(id, toModifyProduct(id, product))
 }
+
+func (s *service) DeleteProduct(id string) error {
+	return s.repository.DeleteProduct(id)
+}

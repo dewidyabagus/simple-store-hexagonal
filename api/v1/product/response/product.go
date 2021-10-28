@@ -12,7 +12,6 @@ type DetailProduct struct {
 	Price       int
 	Qty         int
 	Description string
-	Photo       string
 	UpdatedAt   time.Time
 }
 
@@ -24,7 +23,6 @@ func GetProduct(p product.Product) DetailProduct {
 		Price:       p.Price,
 		Qty:         p.Qty,
 		Description: p.Description,
-		Photo:       p.Photo,
 		UpdatedAt:   p.UpdatedAt,
 	}
 }

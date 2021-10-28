@@ -9,6 +9,9 @@ type Service interface {
 
 	// Add new product
 	AddNewProduct(product *ProductSpec) error
+
+	// Modify Information Product
+	ModifyProduct(id string, product *ProductSpec) error
 }
 
 type Repository interface {
@@ -20,4 +23,7 @@ type Repository interface {
 
 	// Add new product
 	AddNewProduct(product *Product) error
+
+	// Modify Information Product
+	ModifyProduct(id string, product *ModifyProduct) error
 }

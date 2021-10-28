@@ -1,11 +1,13 @@
 package product
 
 import (
+	"errors"
 	"io"
 	"mime/multipart"
 	"os"
 	"time"
 
+	"ApiModule/business"
 	"ApiModule/business/product"
 
 	"gorm.io/gorm"
@@ -80,6 +82,10 @@ func createImage(flname string, file *multipart.FileHeader) error {
 	return nil
 }
 
+func removeImage(flname string) error {
+	return os.Remove(ImageLocation + flname)
+}
+
 func allBusinessProduct(products *[]Product) *[]product.Product {
 	var items []product.Product
 
@@ -113,6 +119,17 @@ func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 	return allBusinessProduct(products), nil
 }
 
+func (r *Repository) GetProductImageById(id string) (string, error) {
+	var source ProductImage
+
+	err := r.DB.Model(&Product{}).Where("ID = ? AND deleted_at = '0001-01-01 00:00:00+00'", id).Find(&source).Error
+	if err != nil {
+		return "", err
+	}
+
+	return ImageLocation + source.Photo, nil
+}
+
 func (r *Repository) AddNewProduct(product *product.Product) error {
 	var err error
 
@@ -132,13 +149,31 @@ func (r *Repository) AddNewProduct(product *product.Product) error {
 	return nil
 }
 
-func (r *Repository) GetProductImageById(id string) (string, error) {
-	var source ProductImage
+func (r *Repository) ModifyProduct(id string, product *product.ModifyProduct) error {
+	var err error
+	var item Product
 
-	err := r.DB.Model(&Product{}).Where("ID = ? AND deleted_at = '0001-01-01 00:00:00+00'", id).Find(&source).Error
+	err = r.DB.First(&item, "ID = ?", id).Error
 	if err != nil {
-		return "", err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return business.ErrNotFound
+		}
+		return err
 	}
 
-	return ImageLocation + source.Photo, nil
+	_ = removeImage(item.Photo)
+	err = createImage(product.Photo, product.File)
+	if err != nil {
+		return err
+	}
+
+	return r.DB.Model(&item).Updates(Product{
+		Code:        product.Code,
+		Name:        product.Name,
+		Price:       product.Price,
+		Qty:         product.Qty,
+		Description: product.Description,
+		Photo:       product.Photo,
+		UpdatedAt:   product.UpdatedAt,
+	}).Error
 }

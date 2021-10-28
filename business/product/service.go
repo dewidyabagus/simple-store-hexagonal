@@ -17,6 +17,10 @@ func (s *service) GetAllProduct() (*[]Product, error) {
 	return s.repository.GetAllProduct()
 }
 
+func (s *service) GetProductImageById(id string) (string, error) {
+	return s.repository.GetProductImageById(id)
+}
+
 func (s *service) AddNewProduct(product *ProductSpec) error {
 	err := validator.GetValidator().Struct(product)
 	if err != nil {
@@ -25,6 +29,11 @@ func (s *service) AddNewProduct(product *ProductSpec) error {
 	return s.repository.AddNewProduct(toProduct(product))
 }
 
-func (s *service) GetProductImageById(id string) (string, error) {
-	return s.repository.GetProductImageById(id)
+func (s *service) ModifyProduct(id string, product *ProductSpec) error {
+	err := validator.GetValidator().Struct(product)
+	if err != nil {
+		return business.ErrInvalidSpec
+	}
+
+	return s.repository.ModifyProduct(id, toModifyProduct(id, product))
 }

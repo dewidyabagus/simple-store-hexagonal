@@ -76,9 +76,37 @@ func (c *Controller) AddNewProduct(ctx echo.Context) error {
 	return ctx.JSON(common.SuccessResponseWithoutData())
 }
 
-// func (c *Controller) ModifyProduct(ctx echo.Context) error {
+func (c *Controller) ModifyProduct(ctx echo.Context) error {
+	id := ctx.Param("id")
+	if _, err := uuid.Parse(id); err != nil {
+		return ctx.JSON(common.BadRequestResponse())
+	}
 
-// }
+	qty, _ := strconv.Atoi(ctx.FormValue("qty"))
+	price, _ := strconv.Atoi(ctx.FormValue("price"))
+
+	product := request.Product{
+		Code:        ctx.FormValue("code"),
+		Name:        ctx.FormValue("name"),
+		Price:       price,
+		Qty:         qty,
+		Description: ctx.FormValue("description"),
+	}
+
+	photo, err := ctx.FormFile("photo")
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	product.Photo = photo
+
+	err = c.service.ModifyProduct(id, product.ToBusinessProduct())
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	return ctx.JSON(common.SuccessResponseWithoutData())
+}
 
 // func (c *Controller) DeleteProduct(ctx echo.Context) error {
 

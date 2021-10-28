@@ -1,11 +1,18 @@
 package product
 
 import (
+	"io"
+	"mime/multipart"
+	"os"
 	"time"
 
 	"ApiModule/business/product"
 
 	"gorm.io/gorm"
+)
+
+const (
+	ImageLocation string = "./modules/product/images/"
 )
 
 type Product struct {
@@ -35,6 +42,44 @@ func (p *Product) toBusinessProduct() *product.Product {
 	}
 }
 
+type ProductImage struct {
+	Photo string `gorm:"photo"`
+}
+
+func insertProduct(p *product.Product) *Product {
+	return &Product{
+		ID:          p.ID,
+		Code:        p.Code,
+		Name:        p.Name,
+		Price:       p.Price,
+		Qty:         p.Qty,
+		Description: p.Description,
+		Photo:       p.Photo,
+		CreatedAt:   p.CreatedAt,
+		UpdatedAt:   p.UpdatedAt,
+	}
+}
+
+func createImage(flname string, file *multipart.FileHeader) error {
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+
+	dst, err := os.Create(ImageLocation + flname)
+	if err != nil {
+		return err
+	}
+	defer dst.Close()
+
+	if _, err = io.Copy(dst, src); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func allBusinessProduct(products *[]Product) *[]product.Product {
 	var items []product.Product
 
@@ -60,7 +105,7 @@ func NewRepository(db *gorm.DB) *Repository {
 func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 	products := new([]Product)
 
-	err := r.DB.Find(products).Error
+	err := r.DB.Where("deleted_at = '0001-01-01 00:00:00+00'").Find(products).Error
 	if err != nil {
 		return nil, err
 	}
@@ -71,5 +116,29 @@ func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 func (r *Repository) AddNewProduct(product *product.Product) error {
 	var err error
 
-	return err
+	item := insertProduct(product)
+
+	err = r.DB.Create(item).Error
+	if err != nil {
+		return err
+	}
+
+	err = createImage(product.Photo, product.File)
+	if err != nil {
+		r.DB.Delete(item).Where("ID", product.ID)
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repository) GetProductImageById(id string) (string, error) {
+	var source ProductImage
+
+	err := r.DB.Model(&Product{}).Where("ID = ? AND deleted_at = '0001-01-01 00:00:00+00'", id).Find(&source).Error
+	if err != nil {
+		return "", err
+	}
+
+	return ImageLocation + source.Photo, nil
 }

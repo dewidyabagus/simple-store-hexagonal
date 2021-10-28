@@ -19,4 +19,6 @@ func AddRoute(e *echo.Echo, user *user.Controller, product *product.Controller) 
 	eproduct := e.Group("/v1/products")
 	eproduct.Use(middleware.JWTMiddleware())
 	eproduct.GET("", product.GetAllProduct)
+	eproduct.POST("", product.AddNewProduct)
+	eproduct.GET("/:id/photo", product.GetProductImageById)
 }

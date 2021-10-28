@@ -6,6 +6,9 @@ import (
 	"ApiModule/api/v1/product/response"
 	"ApiModule/business/product"
 
+	"strconv"
+
+	"github.com/google/uuid"
 	echo "github.com/labstack/echo/v4"
 )
 
@@ -31,13 +34,31 @@ func (c *Controller) GetAllProduct(ctx echo.Context) error {
 
 // }
 
+func (c *Controller) GetProductImageById(ctx echo.Context) error {
+	id := ctx.Param("id")
+
+	if _, err := uuid.Parse(id); err != nil {
+		return ctx.JSON(common.BadRequestResponse())
+	}
+
+	source, err := c.service.GetProductImageById(id)
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	return ctx.File(source)
+}
+
 func (c *Controller) AddNewProduct(ctx echo.Context) error {
+	qty, _ := strconv.Atoi(ctx.FormValue("qty"))
+	price, _ := strconv.Atoi(ctx.FormValue("price"))
+
 	product := request.Product{
-		Code:        "",
-		Name:        "",
-		Price:       0,
-		Qty:         0,
-		Description: "",
+		Code:        ctx.FormValue("code"),
+		Name:        ctx.FormValue("name"),
+		Price:       price,
+		Qty:         qty,
+		Description: ctx.FormValue("description"),
 	}
 
 	photo, err := ctx.FormFile("photo")

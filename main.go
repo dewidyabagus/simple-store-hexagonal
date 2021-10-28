@@ -2,11 +2,18 @@ package main
 
 import (
 	"ApiModule/api"
+	productController "ApiModule/api/v1/product"
 	userController "ApiModule/api/v1/user"
+
+	productService "ApiModule/business/product"
 	userService "ApiModule/business/user"
+
 	"ApiModule/config"
 	"ApiModule/modules/migration"
+
+	productRepository "ApiModule/modules/product"
 	userRepository "ApiModule/modules/user"
+
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -47,11 +54,20 @@ func main() {
 	// Initiate User Controller
 	userHandler := userController.NewController(userServc)
 
+	// Initiate Product Repository
+	productRepo := productRepository.NewRepository(dbConnection)
+
+	// Initiate Product Service
+	productServc := productService.NewService(productRepo)
+
+	// Initiate Product Controller
+	productHandler := productController.NewController(productServc)
+
 	// Initiate Echo Web Service
 	e := echo.New()
 
 	// Add routing
-	api.AddRoute(e, userHandler)
+	api.AddRoute(e, userHandler, productHandler)
 
 	// Start service
 	e.Start(fmt.Sprintf("%s:%d", config.AppHost, config.AppPort))

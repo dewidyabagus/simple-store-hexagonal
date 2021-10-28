@@ -1,0 +1,876 @@
+{
+	"info": {
+		"_postman_id": "bb320512-3e7e-420a-9a7c-0d30a76cd359",
+		"name": "Simple Store Golang",
+		"description": "Module API produk dengan sistem autentikasi JWT dengan layanan:\n1. Autentikasi User\n   a. Register user baru\n   b. Login user\n\n2. Product\n   a. Pencarian semua produk\n   b. Menampilkan gambar yang sudah tersimpan\n   c. Pencarian produk berdasarkan id\n   d. Pencarian produk berdasarkan code, name dan status active\n   e. Menambahkan produk baru\n   f. Memperbarui produk\n   g. Menghapus produk, menggunkana metode soft delete",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "widya@example.com",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "widya ade",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "bagus",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "widya@example.com",
+											"type": "text"
+										},
+										{
+											"key": "firstname",
+											"value": "widya ade",
+											"type": "text"
+										},
+										{
+											"key": "lastname",
+											"value": "bagus",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": {}\n}"
+						},
+						{
+							"name": "Email Existing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "widya@example.com",
+											"type": "text"
+										},
+										{
+											"key": "firstname",
+											"value": "widya ade",
+											"type": "text"
+										},
+										{
+											"key": "lastname",
+											"value": "bagus",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 09:07:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"409\",\n    \"message\": \"Data Conflig\",\n    \"Data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "widya@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345611",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "widya@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 09:06:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "255"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjM2M2YzMTIyLTkxNzMtNGE1Yy04MDFkLTJkNjdhMzkzMWZkZCIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzNTQ5ODQxOH0.hjKbLpXimEgwQXLH3PsywWVmnvxkTXwqKH8AlnJttIQ\"\n    }\n}"
+						},
+						{
+							"name": "Login Failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "widya@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345611",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 09:08:33 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"404\",\n    \"message\": \"Not Found\",\n    \"Data\": {}\n}"
+						}
+					]
+				}
+			],
+			"description": "Register dan login user"
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get Product",
+					"item": [
+						{
+							"name": "Get All Product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Product Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/products",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 28 Oct 2021 09:09:39 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": []\n}"
+								},
+								{
+									"name": "Result All Product",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/products",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 28 Oct 2021 09:15:13 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "227"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": [\n        {\n            \"ID\": \"3fe14a96-2735-4163-a574-88d9155dd890\",\n            \"Code\": \"MIE000000001\",\n            \"Name\": \"MIE SEDAP RASA SOTO\",\n            \"Price\": 2500,\n            \"Qty\": 10,\n            \"Description\": \"\",\n            \"UpdatedAt\": \"2021-10-28T16:10:09.611894+07:00\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Product Image By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/{{productid}}/photo",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{productid}}",
+										"photo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find Product By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/{{productid}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{productid}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Data Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/products/3fe14a96-2735-4163-a574-88d9155dd890",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"products",
+												"3fe14a96-2735-4163-a574-88d9155dd890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 28 Oct 2021 09:17:17 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "225"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": {\n        \"ID\": \"3fe14a96-2735-4163-a574-88d9155dd890\",\n        \"Code\": \"MIE000000001\",\n        \"Name\": \"MIE SEDAP RASA SOTO\",\n        \"Price\": 2500,\n        \"Qty\": 10,\n        \"Description\": \"\",\n        \"UpdatedAt\": \"2021-10-28T16:10:09.611894+07:00\"\n    }\n}"
+								},
+								{
+									"name": "Data Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/products/3fe14a96-2735-4163-a574-88d9155dd891",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"products",
+												"3fe14a96-2735-4163-a574-88d9155dd891"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 28 Oct 2021 09:17:37 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"code\": \"404\",\n    \"message\": \"Not Found\",\n    \"Data\": {}\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Product By Params",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/params?active=true",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"params"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "MIE000000001",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "MIE SEDAP RASA SOTO UPDATE 3",
+											"disabled": true
+										},
+										{
+											"key": "active",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add New Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "MIE000000003",
+									"description": "Kode barang harus unik dan karakter haru 12 digit",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "MIE SEDAP RASA GORENGAN",
+									"description": "Nama barang",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2500",
+									"description": "Harga barang",
+									"type": "text"
+								},
+								{
+									"key": "qty",
+									"value": "10",
+									"description": "Kuantitas barang",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "Catatan untuk barang",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"description": "Gambar produk",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success Add New",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "code",
+											"value": "MIE000000001",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "MIE SEDAP RASA SOTO",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "2500",
+											"type": "text"
+										},
+										{
+											"key": "qty",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "photo",
+											"type": "file",
+											"src": "/C:/Users/Widya Ade Bagus/Pictures/mie sedap.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 09:10:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"200\",\n    \"message\": \"success\",\n    \"Data\": {}\n}"
+						},
+						{
+							"name": "Product Code Exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "code",
+											"value": "MIE000000001",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "MIE SEDAP RASA SOTO",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "2500",
+											"type": "text"
+										},
+										{
+											"key": "qty",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "photo",
+											"type": "file",
+											"src": "/C:/Users/Widya Ade Bagus/Pictures/mie sedap.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 09:10:33 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"409\",\n    \"message\": \"Data Conflig\",\n    \"Data\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Modify Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "MIE000000003",
+									"description": "Kode barang harus unik dan karakter haru 12 digit",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "MIE SEDAP RASA SOTO GORENGAN",
+									"description": "Nama barang",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2500",
+									"description": "Harga barang",
+									"type": "text"
+								},
+								{
+									"key": "qty",
+									"value": "10",
+									"description": "Kuantitas barang",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "Catatan untuk barang",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"description": "Gambar produk",
+									"type": "file",
+									"src": "/C:/Users/Widya Ade Bagus/Pictures/mie sedap.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{productid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{productid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/{{productid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{productid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Menambah produk, merubah informasi produk, pencarian data produk dan menghapus produk",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6IjgxNGU2NGM4LTUwM2YtNDMzZi04OGI3LWEwNTUwOTNlNTA2NSIsImF1dGhvcml6ZWQiOnRydWUsImV4cCI6MTYzNTQ2Mzc5OX0.ZzRCJCbCQ3eEDrFhjj888pZ7DSGt3B4bewJGJ4p9B3s",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/v1"
+		},
+		{
+			"key": "productid",
+			"value": "6a4841d9-e5f3-4e73-b5df-8da0287701bf"
+		}
+	]
+}

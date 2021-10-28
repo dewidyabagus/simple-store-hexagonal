@@ -113,7 +113,7 @@ func NewRepository(db *gorm.DB) *Repository {
 func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 	products := new([]Product)
 
-	err := r.DB.Where("deleted_at IS NULL").Find(products).Error
+	err := r.DB.Where("(deleted_at IS NULL OR deleted_at = '0001-01-01 00:00:00+00')").Find(products).Error
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 func (r *Repository) GetProductImageById(id string) (string, error) {
 	var source ProductImage
 
-	err := r.DB.Model(&Product{}).Where("ID = ? AND deleted_at IS NULL", id).Find(&source).Error
+	err := r.DB.Model(&Product{}).Where("ID = ? AND (deleted_at IS NULL OR deleted_at = '0001-01-01 00:00:00+00')", id).Find(&source).Error
 	if err != nil {
 		return "", err
 	}
@@ -144,7 +144,7 @@ func (r *Repository) GetProductImageById(id string) (string, error) {
 func (r *Repository) FindProductById(id string) (*product.Product, error) {
 	item := new(Product)
 
-	err := r.DB.First(item, "ID = ? and deleted_at IS NULL", id).Error
+	err := r.DB.First(item, "ID = ? and (deleted_at IS NULL OR deleted_at = '0001-01-01 00:00:00+00')", id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -182,9 +182,9 @@ func (r *Repository) FindProductByParams(code, name, active string) (*[]product.
 		}
 
 		if res {
-			strWhere += " deleted_at IS NULL"
+			strWhere += " (deleted_at IS NULL OR deleted_at = '0001-01-01 00:00:00+00') "
 		} else {
-			strWhere += " deleted_at IS NOT NULL"
+			strWhere += " (deleted_at IS NOT NULL AND deleted_at != '0001-01-01 00:00:00+00')"
 		}
 
 	}
@@ -216,10 +216,12 @@ func (r *Repository) AddNewProduct(product *product.Product) error {
 		return err
 	}
 
-	err = createImage(product.Photo, product.File)
-	if err != nil {
-		r.DB.Delete(item).Where("ID", product.ID)
-		return err
+	if product.File.Filename != "" {
+		err = createImage(product.Photo, product.File)
+		if err != nil {
+			r.DB.Delete(item).Where("ID", product.ID)
+			return err
+		}
 	}
 
 	return nil
@@ -248,9 +250,11 @@ func (r *Repository) ModifyProduct(id string, product *product.ModifyProduct) er
 	}
 
 	_ = removeImage(item.Photo)
-	err = createImage(product.Photo, product.File)
-	if err != nil {
-		return err
+	if product.File.Filename != "" {
+		err = createImage(product.Photo, product.File)
+		if err != nil {
+			return err
+		}
 	}
 
 	return r.DB.Model(&item).Updates(Product{
@@ -267,7 +271,7 @@ func (r *Repository) ModifyProduct(id string, product *product.ModifyProduct) er
 func (r *Repository) DeleteProduct(id string) error {
 	product := new(Product)
 
-	err := r.DB.First(product, "ID = ? and deleted_at IS NULL", id).Error
+	err := r.DB.First(product, "ID = ? and (deleted_at IS NULL OR deleted_at = '0001-01-01 00:00:00+00')", id).Error
 	if err != nil {
 		return err
 	}

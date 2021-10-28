@@ -5,6 +5,7 @@ import (
 	"ApiModule/api/v1/product/request"
 	"ApiModule/api/v1/product/response"
 	"ApiModule/business/product"
+	"mime/multipart"
 
 	"strconv"
 
@@ -91,10 +92,15 @@ func (c *Controller) AddNewProduct(ctx echo.Context) error {
 
 	photo, err := ctx.FormFile("photo")
 	if err != nil {
-		return ctx.JSON(common.NewBusinessErrorResponse(err))
-	}
+		if err.Error() != "http: no such file" {
+			return ctx.JSON(common.BadRequestResponse())
+		}
+		product.Photo = &multipart.FileHeader{}
 
-	product.Photo = photo
+	} else {
+		product.Photo = photo
+
+	}
 
 	err = c.service.AddNewProduct(product.ToBusinessProduct())
 	if err != nil {
@@ -123,10 +129,15 @@ func (c *Controller) ModifyProduct(ctx echo.Context) error {
 
 	photo, err := ctx.FormFile("photo")
 	if err != nil {
-		return ctx.JSON(common.NewBusinessErrorResponse(err))
-	}
+		if err.Error() != "http: no such file" {
+			return ctx.JSON(common.BadRequestResponse())
+		}
+		product.Photo = &multipart.FileHeader{}
 
-	product.Photo = photo
+	} else {
+		product.Photo = photo
+
+	}
 
 	err = c.service.ModifyProduct(id, product.ToBusinessProduct())
 	if err != nil {

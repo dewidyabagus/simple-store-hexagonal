@@ -23,14 +23,20 @@ dan user untuk login didapat dari proses registrasi user.
         ```console
         docker-compose up -d
         ```
+     
+     - Menon-aktifkan daftar container
+     
+        ```console
+        docker-compose stop
+        ```
         
-     - Menjalankan container yang sudah ada
+     - Men-aktifkan daftar container
      
         ```console
         docker-compose start
         ```
         
-     - Menghapus container yang sudah terbuat
+     - Menghapus hapus daftar container
      
         ```console
         docker-compose down

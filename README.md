@@ -6,13 +6,13 @@ Implementasi kode terinspirasi oleh pola arsitektur hexagonal yang memisahkan pr
 -    Autentikasi user
 -    CRUD produk dan foto produk
 
-### Inisialisasi Data
+### Inisialisasi API Server
 Database yang digunakan `PostgreSQL`, ORM menggunakan pustaka `gorm` dan web framework menggunakan ```echo```. Sebelum memulai pastikan
 file ```.env``` sudah disesuaikan dengan konfigurasi yang digunakan. Untuk setiap kali request penambahan,
 perubahan informasi, pengambilan data dan penghapusan produk menggunakan autentikasi ``JWT`` dimana ```Token``` didapat dari proses login 
 dan user yang dibuat login didapat dari proses registrasi user.
 
-### Menjalankan Aplikasi
+### Menjalankan API Server
 -    Menggunakan ***Golang***, cukup jalankan perintah ini di terminal tempat sources di simpan.
      ```console
      go run .

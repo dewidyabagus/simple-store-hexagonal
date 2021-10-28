@@ -8,6 +8,8 @@ services:
       - POSTGRES_PASSWORD=yourpassword
       - POSTGRES_DB=storedb
     restart: on-failure
+    ports:
+      - 65432:5432
     networks:
       - local_network
   webservice:

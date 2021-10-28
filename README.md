@@ -8,7 +8,7 @@ Implementasi kode terinspirasi oleh pola arsitektur hexagonal yang memisahkan pr
 
 ### Inisialisasi API Server
 Database yang digunakan `PostgreSQL`, ORM menggunakan pustaka `gorm` dan web framework menggunakan ```echo```. Sebelum memulai pastikan
-file ```.env``` sudah disesuaikan dengan konfigurasi yang digunakan. Untuk setiap kali request penambahan,
+file ```.env``` sudah disesuaikan dengan konfigurasi yang digunakan. Stuktur database sudah otomatis ter-migrasi ke database yang sudah diset di file ```.env``` . Untuk setiap kali request penambahan,
 perubahan informasi, pengambilan data dan penghapusan produk menggunakan autentikasi ``JWT`` dimana ```Token``` didapat dari proses login 
 dan user untuk login didapat dari proses registrasi user.
 

@@ -67,3 +67,9 @@ func (r *Repository) GetAllProduct() (*[]product.Product, error) {
 
 	return allBusinessProduct(products), nil
 }
+
+func (r *Repository) AddNewProduct(product *product.Product) error {
+	var err error
+
+	return err
+}

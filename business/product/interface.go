@@ -7,5 +7,5 @@ type Service interface {
 
 type Repository interface {
 	GetAllProduct() (*[]Product, error)
-	AddNewProduct(product *ProductSpec) error
+	AddNewProduct(product *Product) error
 }

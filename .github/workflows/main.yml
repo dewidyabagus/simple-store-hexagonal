@@ -26,7 +26,7 @@ jobs:
         env: 
           CONFIG: ${{secrets.APP_CONFIG}} 
         run: | 
-          echo "$CONFIG" > ./app.config.json 
+          mkdir config && echo "$CONFIG" > ./config/.env
       - name: build image
         run: docker build -t widyaadebagus/webstore-golang:1.0 . 
       - name: login docker hub 
@@ -59,4 +59,4 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: Connect EC2 & Remove All Container & Pull from Registry & Start
-        run: ssh development 'docker rm -f $(docker ps -a -q) || true && docker pull widyaadebagus/webstore-golang:1.0 && docker run -d -p 8000:3000 --name=loginservice hanifbg/loginservice:1.0'
+        run: ssh development 'docker rm -f $(docker ps -a -q) || true && docker pull widyaadebagus/webstore-golang:1.0 && docker run -d -p 8000:8000 --name=webstore widyaadebagus/webstore-golang:1.0 && docker run -d -p 65432:5432 -e POSTGRES_USER=testuser -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=storedb --name=postgresql postgres:10-alpine'

@@ -44,3 +44,6 @@ dan user untuk login didapat dari proses registrasi user.
 
 ### Melakukan pengujian API server
 Untuk dokumentasi singkat penggunaan API server yang berkaitan dengan nama end point, parameter dan respon data dapat dilihat pada ```Postman-2021-10-28.json``` .
+
+### Kontak
+Widya Ade Bagus - https://www.linkedin.com/in/widya-ade-bagus-3a660716b/

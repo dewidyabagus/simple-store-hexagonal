@@ -130,6 +130,17 @@ func (r *Repository) GetProductImageById(id string) (string, error) {
 	return ImageLocation + source.Photo, nil
 }
 
+func (r *Repository) FindProductById(id string) (*product.Product, error) {
+	item := new(Product)
+
+	err := r.DB.First(item, "ID = ? and deleted_at = '0001-01-01 00:00:00+00'", id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return item.toBusinessProduct(), nil
+}
+
 func (r *Repository) AddNewProduct(product *product.Product) error {
 	var err error
 

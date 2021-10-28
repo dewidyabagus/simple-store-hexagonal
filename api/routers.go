@@ -20,6 +20,7 @@ func AddRoute(e *echo.Echo, user *user.Controller, product *product.Controller) 
 	eproduct.Use(middleware.JWTMiddleware())
 	eproduct.GET("", product.GetAllProduct)
 	eproduct.POST("", product.AddNewProduct)
+	eproduct.GET("/:id", product.FindProductBy)
 	eproduct.PUT("/:id", product.ModifyProduct)
 	eproduct.GET("/:id/photo", product.GetProductImageById)
 }

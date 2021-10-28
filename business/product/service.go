@@ -21,6 +21,10 @@ func (s *service) GetProductImageById(id string) (string, error) {
 	return s.repository.GetProductImageById(id)
 }
 
+func (r *service) FindProductById(id string) (*Product, error) {
+	return r.repository.FindProductById(id)
+}
+
 func (s *service) AddNewProduct(product *ProductSpec) error {
 	err := validator.GetValidator().Struct(product)
 	if err != nil {

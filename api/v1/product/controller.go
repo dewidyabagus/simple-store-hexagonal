@@ -30,10 +30,6 @@ func (c *Controller) GetAllProduct(ctx echo.Context) error {
 	return ctx.JSON(common.SuccessResponseWithData(response.AllProduct(products)))
 }
 
-// func (c *Controller) FindProductBy(ctx echo.Context) error {
-
-// }
-
 func (c *Controller) GetProductImageById(ctx echo.Context) error {
 	id := ctx.Param("id")
 
@@ -47,6 +43,21 @@ func (c *Controller) GetProductImageById(ctx echo.Context) error {
 	}
 
 	return ctx.File(source)
+}
+
+func (c *Controller) FindProductBy(ctx echo.Context) error {
+	id := ctx.Param("id")
+
+	if _, err := uuid.Parse(id); err != nil {
+		return ctx.JSON(common.BadRequestResponse())
+	}
+
+	product, err := c.service.FindProductById(id)
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	return ctx.JSON(common.SuccessResponseWithData(response.GetProduct(*product)))
 }
 
 func (c *Controller) AddNewProduct(ctx echo.Context) error {

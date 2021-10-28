@@ -1,17 +1,25 @@
 version: "3.8"
 services:
-  databases:
-    container_name: postgresql-storedb
+  postgres:
+    container_name: postgres
     image: postgres:10-alpine
     environment:
       - POSTGRES_USER=testuser
       - POSTGRES_PASSWORD=yourpassword
       - POSTGRES_DB=storedb
     restart: on-failure
-    ports:
-      - 65432:5432
     networks:
       - local_network
+  webservice:
+    container_name: storewebservice
+    image: widyaadebagus/simple-store-hexagonal:1.0
+    restart: on-failure
+    ports:
+      - 8000:8000
+    networks:
+      - local_network
+    depends_on:
+      - postgres
 networks:
   local_network:
     name: local_network

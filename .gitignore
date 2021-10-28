@@ -1,4 +1,4 @@
-config/.env
+.env
 modules/product/images/*
 
 tmp/*

@@ -1,8 +1,6 @@
 package config
 
 import (
-	"os"
-
 	"github.com/labstack/gommon/log"
 	"github.com/spf13/viper"
 )
@@ -33,18 +31,18 @@ func GetConfig() *ConfigApp {
 
 	var (
 		err error
-		cwd string
+		// cwd string
 	)
 
 	// Geting current directory
-	cwd, err = os.Getwd()
-	if err != nil {
-		log.Info("Failed get current directory, config set to default.")
-		return &defaConfig
-	}
+	// cwd, err = os.Getwd()
+	// if err != nil {
+	// 	log.Info("Failed get current directory, config set to default.")
+	// 	return &defaConfig
+	// }
 
 	// Geting config in file .env
-	viper.SetConfigFile(cwd + "/config/.env")
+	viper.SetConfigFile(".env")
 	err = viper.ReadInConfig()
 	if err != nil {
 		log.Info("Failed read config, config set to default.")

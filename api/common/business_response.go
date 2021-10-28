@@ -22,5 +22,6 @@ func errorMapping(err error) (int, ControllerResponse) {
 
 	case business.ErrConflig:
 		return ConfligResponse()
+
 	}
 }

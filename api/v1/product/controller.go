@@ -60,6 +60,23 @@ func (c *Controller) FindProductBy(ctx echo.Context) error {
 	return ctx.JSON(common.SuccessResponseWithData(response.GetProduct(*product)))
 }
 
+func (c *Controller) FindProductByParams(ctx echo.Context) error {
+	code := ctx.QueryParam("code")
+	name := ctx.QueryParam("name")
+	active := ctx.QueryParam("active")
+
+	if len(code)+len(name)+len(active) == 0 {
+		return ctx.JSON(common.BadRequestResponse())
+	}
+
+	products, err := c.service.FindProductByParams(code, name, active)
+	if err != nil {
+		return ctx.JSON(common.NewBusinessErrorResponse(err))
+	}
+
+	return ctx.JSON(common.SuccessResponseWithData(response.AllProduct(products)))
+}
+
 func (c *Controller) AddNewProduct(ctx echo.Context) error {
 	qty, _ := strconv.Atoi(ctx.FormValue("qty"))
 	price, _ := strconv.Atoi(ctx.FormValue("price"))

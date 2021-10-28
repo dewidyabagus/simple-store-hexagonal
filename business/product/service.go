@@ -25,6 +25,10 @@ func (r *service) FindProductById(id string) (*Product, error) {
 	return r.repository.FindProductById(id)
 }
 
+func (s *service) FindProductByParams(code, name, active string) (*[]Product, error) {
+	return s.repository.FindProductByParams(code, name, active)
+}
+
 func (s *service) AddNewProduct(product *ProductSpec) error {
 	err := validator.GetValidator().Struct(product)
 	if err != nil {

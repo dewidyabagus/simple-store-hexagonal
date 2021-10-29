@@ -17,13 +17,16 @@ dan user untuk login didapat dari proses registrasi user.
      ```console
      go run .
      ```
--    Menggunakan ***Docker***, pastikan anda sudah menginstall docker terlebih dahulu dan jalankan perintah ini di tempat source di simpan:<br>
+-    Menggunakan ***Docker***, pastikan anda sudah menginstall docker terlebih dahulu dan jalankan perintah dibawah ini. 
+     Docker akan mendownload image yang sudah dibuat dengan resource tersebut dan akan membuat container yang langsung siap untuk digunakan.
      - Membuat dan menjalankan container dibelakang layar
      
         ```console
         docker-compose up -d
         ```
-     
+        
+        API server secara default berjalan di: ```http://localhost:8000/v1```
+        
      - Menon-aktifkan daftar container
      
         ```console
@@ -36,10 +39,15 @@ dan user untuk login didapat dari proses registrasi user.
         docker-compose start
         ```
         
-     - Menghapus hapus daftar container
+     - Menghapus daftar container
      
         ```console
         docker-compose down
+        ```
+-    ***Build image docker***, Anda juga dapat melakukan build image docker API server dengan menjalankan perintah diterminal pada source.
+
+        ```console
+        docker build -t <<nama_image_anda>> .
         ```
 
 ### Melakukan pengujian API server
